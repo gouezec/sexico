@@ -5,10 +5,7 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 import com.airbus.sexico.db.Database;
-import com.airbus.sexico.db.mapdb.MapDatabase;
-import com.airbus.sexico.db.sqldb.DerbyDatabase;
 import com.airbus.sexico.db.sqldb.H2Database;
-import com.airbus.sexico.db.sqldb.H2InMemoryDatabase;
 import com.airbus.sexico.importation.MEXICOConfigImporter;
 
 public class Main {

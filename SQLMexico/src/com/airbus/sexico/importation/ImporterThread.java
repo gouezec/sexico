@@ -11,6 +11,18 @@ import com.airbus.sexico.importation.micd.MICDImporter;
 
 public class ImporterThread extends Thread {
 
+
+	
+	public ImporterThread(Database db, File folder, NodeList actors, int first, int last, boolean isTimeStamped) {
+		super();
+		this.db = db;
+		this.folder = folder;
+		this.actors = actors;
+		this.first = first;
+		this.last = last;
+		this.isTimeStamped = isTimeStamped;
+	}
+
 	public final Database getDb() {
 		return db;
 	}
@@ -39,15 +51,21 @@ public class ImporterThread extends Thread {
 		return nb;
 	}
 
-	public final void setNb(long nb) {
-		this.nb = nb;
-	}
-
 	private Database db;
 	private File folder;
 	private NodeList actors;
 	private long nb;
+	
+	public final boolean isTimeStamped() {
+		return isTimeStamped;
+	}
 
+	public final void setTimeStamped(boolean isTimeStamped) {
+		this.isTimeStamped = isTimeStamped;
+	}
+
+	private boolean isTimeStamped;
+	
 	public final int getFirst() {
 		return first;
 	}
@@ -105,7 +123,7 @@ public class ImporterThread extends Thread {
 		String fileName = micd.getAttribute("fileName");
 
 		Importer importer = new MICDImporter(db, actorName);
-		importer.setTimeStamped(true);
+		importer.setTimeStamped(isTimeStamped);
 		importer.importFile(new File(folder, fileName));
 
 		NodeList couplings = micd.getElementsByTagName("Coupling");
@@ -122,7 +140,7 @@ public class ImporterThread extends Thread {
 	protected void importCoupling(Element coupling, String actorName) throws Exception {
 		String fileName = coupling.getAttribute("fileName");
 		Importer importer = new CouplingImporter(db, actorName);
-		importer.setTimeStamped(true);
+		importer.setTimeStamped(isTimeStamped);
 		importer.importFile(new File(folder, fileName));
 	}
 }

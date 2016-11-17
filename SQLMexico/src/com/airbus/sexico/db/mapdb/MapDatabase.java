@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.airbus.sexico.db.Database;
 import com.airbus.sexico.db.DatabaseException;
+import com.airbus.sexico.db.Direction;
 
 public class MapDatabase implements Database {
 
@@ -29,7 +30,7 @@ public class MapDatabase implements Database {
 	}
 
 	@Override
-	public void insertPort(String modelName, String portName, String typeName, String description, String direction,
+	public void insertPort(String modelName, String portName, String typeName, String description, Direction direction,
 			boolean micdConsistency) throws DatabaseException {
 		_ports.put(modelName + portName, new Port(modelName, portName, typeName, description, direction, micdConsistency));
 	}

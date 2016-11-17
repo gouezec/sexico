@@ -1,5 +1,7 @@
 package com.airbus.sexico.db.mapdb;
 
+import com.airbus.sexico.db.Direction;
+
 public class Port {
 
 	public String getModelName() {
@@ -53,23 +55,23 @@ public class Port {
 
 	private String typeName;
 	
-	public final String getDirection() {
+	public final Direction getDirection() {
 		return direction;
 	}
 
-	public final void setDirection(String direction) {
+	public final void setDirection(Direction direction) {
 		this.direction = direction;
 	}
 
 
-	private String direction;
+	private Direction direction;
 
 	private boolean micdConsistency;
 
 	public Port() {
 	}
 
-	public Port(String modelName, String portName, String description, String typeName, String direction, boolean micdConsistency) {
+	public Port(String modelName, String portName, String description, String typeName, Direction direction, boolean micdConsistency) {
 		super();
 		this.modelName = modelName;
 		this.portName = portName;

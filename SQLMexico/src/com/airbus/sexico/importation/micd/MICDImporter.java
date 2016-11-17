@@ -14,6 +14,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import com.airbus.sexico.db.Database;
 import com.airbus.sexico.db.DatabaseException;
+import com.airbus.sexico.db.Direction;
 import com.airbus.sexico.importation.ImportException;
 import com.airbus.sexico.importation.Importer;
 
@@ -42,9 +43,9 @@ public class MICDImporter extends Importer {
 			
 			wb = WorkbookFactory.create(file);
 			st = wb.getSheet(FUN_IN);
-			nb = importSheet(st, DIRECTION_IN);
+			nb = importSheet(st, Direction.IN);
 			st = wb.getSheet(FUN_OUT);
-			nb += importSheet(st, DIRECTION_OUT);
+			nb += importSheet(st, Direction.OUT);
 
 			wb.close();
 			return nb;
@@ -53,7 +54,7 @@ public class MICDImporter extends Importer {
 		}
 	}
 
-	protected long importSheet(Sheet st, String direction)  {
+	protected long importSheet(Sheet st, Direction direction)  {
 		long nb = 0;
 		Iterator<Row> it = st.rowIterator();
 		// skip first line

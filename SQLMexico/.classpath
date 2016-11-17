@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="lib" path="C:/Users/to28077/db-derby-10.13.1.1-bin/lib/derby.jar"/>
+	<classpathentry kind="lib" path="C:/Users/to28077/db-derby-10.13.1.1-bin/lib/derbyclient.jar"/>
+	<classpathentry kind="lib" path="C:/Users/to28077/poi-bin-3.15-20160924/poi-3.15/poi-3.15.jar"/>
+	<classpathentry kind="lib" path="C:/Users/to28077/poi-bin-3.15-20160924/poi-3.15/poi-ooxml-3.15.jar"/>
+	<classpathentry kind="lib" path="C:/Users/to28077/opencsv-3.8.jar"/>
+	<classpathentry kind="lib" path="C:/Users/to28077/Desktop/h2/bin/h2-1.4.191.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

@@ -47,14 +47,14 @@ public class ImporterThread extends Thread {
 		this.actors = actors;
 	}
 
-	public final long getNb() {
-		return nb;
+	public final long getNbItems() {
+		return nbItems;
 	}
 
 	private Database db;
 	private File folder;
 	private NodeList actors;
-	private long nb;
+	private long nbItems;
 	
 	public final boolean isTimeStamped() {
 		return isTimeStamped;
@@ -92,11 +92,11 @@ public class ImporterThread extends Thread {
 	@Override
 	public void run() {
 		try {
-			nb = 0;
+			nbItems = 0;
 			for (int i = first; i <= last; i++) {
 				Element actor = (Element) actors.item(i);
 				importActor(actor);
-				nb++;
+				nbItems++;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

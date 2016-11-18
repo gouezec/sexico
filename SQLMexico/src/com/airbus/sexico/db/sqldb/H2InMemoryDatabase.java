@@ -4,16 +4,15 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import com.airbus.sexico.db.Database;
 import com.airbus.sexico.db.DatabaseException;
 
 public class H2InMemoryDatabase extends SQLDatabase {
 
-	private H2InMemoryDatabase() throws DatabaseException {
+	public H2InMemoryDatabase(String name) throws DatabaseException {
 		super();
 		try {
 			Class.forName("org.h2.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:h2:mem:db1", "sa", "");
+			Connection conn = DriverManager.getConnection("jdbc:h2:mem:"+name, "sa", "");
 			init(conn);
 		} catch (SQLException e) {
 			// ignore. Tables already existing
@@ -22,21 +21,4 @@ public class H2InMemoryDatabase extends SQLDatabase {
 			throw new DatabaseException(e, DatabaseException.REASON_UNKNOWN);
 		}
 	}
-
-	public static Database getInstance() {
-		if (_instance != null) {
-			return _instance;
-		} else {
-			try {
-				_instance = new H2InMemoryDatabase();
-				return _instance;
-			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
-			}
-		}
-	}
-	
-
-	private static Database _instance = null;
 }

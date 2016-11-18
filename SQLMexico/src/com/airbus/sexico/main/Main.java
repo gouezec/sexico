@@ -5,7 +5,7 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 import com.airbus.sexico.db.Database;
-import com.airbus.sexico.db.sqldb.H2Database;
+import com.airbus.sexico.db.DatabaseFactory;
 import com.airbus.sexico.importation.MEXICOConfigImporter;
 
 public class Main {
@@ -14,16 +14,9 @@ public class Main {
 	final static String MEXICO_CFG_FILE_NAME = "C:/Users/to28077/Desktop/big/SSDBConfig_A320ID_IVP.xml";
 	
 	public static void main(String[] args) throws Exception {
-		Database db;
-
 		long memStatAtStart = getFreeMemory();
 		
-		
-		db = H2Database.getInstance();
-		//db = DerbyDatabase.getInstance();	
-		//db = H2InMemoryDatabase.getInstance();
-		//db = MapDatabase.getInstance();	
-			
+		Database db = DatabaseFactory.getInstance().createH2Database("sexico");
 		File configFile = new File(MEXICO_CFG_FILE_NAME);
 		MEXICOConfigImporter importer = new MEXICOConfigImporter(db);
 		importer.setTimeStamped(true);

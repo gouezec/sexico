@@ -12,17 +12,8 @@ public class MapDatabase implements Database {
 	
 	private HashMap<String, PortConnection> _connections;
 
-	private MapDatabase() {
+	public MapDatabase(String name) {
 		initBase();
-	}
-
-	public static Database getInstance() {
-		if (_instance != null) {
-			return _instance;
-		} else {
-			_instance = new MapDatabase();
-			return _instance;
-		}
 	}
 
 	public void finalize() {
@@ -56,7 +47,4 @@ public class MapDatabase implements Database {
 		_ports = new HashMap<String, Port>();
 		_connections = new HashMap<String, PortConnection>();		
 	}
-
-
-	private static Database _instance = null;
 }

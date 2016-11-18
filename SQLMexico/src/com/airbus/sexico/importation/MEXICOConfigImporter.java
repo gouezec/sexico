@@ -33,12 +33,10 @@ public class MEXICOConfigImporter extends Importer {
 
 			NodeList actors = document.getElementsByTagName("Actor");
 
-			long nb = 0;
-
+			long nbItems = 0;
 			int nbThreads = 1;
 			ImporterThread [] threads = new ImporterThread[nbThreads];
 			int nbActors = actors.getLength() / nbThreads;
-
 			for (int i=0; i<nbThreads-1; i++) {
 				int first = i*nbActors;
  				int last = (i+1)*nbActors; 
@@ -50,16 +48,16 @@ public class MEXICOConfigImporter extends Importer {
  				threads[nbThreads-1].start();
 			}
 			try {	
-				for (int n=0; n<nbThreads; n++) {
-					threads[n].join();
-					nb += threads[n].getNb();
+				for (int i=0; i<nbThreads; i++) {
+					threads[i].join();
+					nbItems += threads[i].getNbItems();
 				}	
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 
 			_db.commitBase();
-			return nb;
+			return nbItems;
 		} catch (ParserConfigurationException | SAXException | IOException | DatabaseException  e) {
 			throw new ImportException(e);
 		}

@@ -133,7 +133,7 @@ public abstract class SQLDatabase implements Database {
 	final static String INSERT_CONNECTION = "INSERT INTO CONNECTIONS VALUES (?,?,?)";
 
 	final static String CREATE_PORT_TABLE = "CREATE TABLE PORTS " + "(modelname VARCHAR(100), "
-			+ " portname VARCHAR(100), " + " type VARCHAR(30), " + " description VARCHAR(255), "
+			+ " portname VARCHAR(100), " + " type VARCHAR(30), " + " description VARCHAR(100), "
  			+ " direction CHAR(1), "
 			+ " MICDconsistency BOOLEAN, "
 			+ " PRIMARY KEY ( modelname, portname ))";

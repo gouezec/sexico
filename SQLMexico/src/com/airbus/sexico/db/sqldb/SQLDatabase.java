@@ -19,8 +19,8 @@ public abstract class SQLDatabase implements Database {
 
 	protected void init(Connection conn) throws DatabaseException {
 		try {
-			_conn = conn;
-			_conn.setAutoCommit(false);
+			this.conn = conn;
+			conn.setAutoCommit(false);
 			try {
 				dropBase();
 			}
@@ -28,8 +28,8 @@ public abstract class SQLDatabase implements Database {
 				// ignore. Tables don't exist
 			}
 			createTables();
-			_insertPortStatement = _conn.prepareStatement(INSERT_PORT);
-			_insertConnectionStatement = _conn.prepareStatement(INSERT_CONNECTION);
+			_insertPortStatement = conn.prepareStatement(INSERT_PORT);
+			_insertConnectionStatement = conn.prepareStatement(INSERT_CONNECTION);
 		} catch (SQLException e) {
 			// ignore. Tables already existing
 			e.printStackTrace();
@@ -38,7 +38,7 @@ public abstract class SQLDatabase implements Database {
 
 	public void finalize() {
 		try {
-			_conn.close();
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -84,7 +84,7 @@ public abstract class SQLDatabase implements Database {
 	@Override
 	public void commitBase() throws DatabaseException {
 		try {
-			_conn.commit();
+			conn.commit();
 		} catch (SQLException e) {
 			throw new DatabaseException(e, DatabaseException.REASON_UNKNOWN);
 		}
@@ -101,9 +101,17 @@ public abstract class SQLDatabase implements Database {
 	
 	private void createTables() {
 		try {
-			Statement stmt = _conn.createStatement();
+			Statement stmt = conn.createStatement();
 			stmt.executeUpdate(CREATE_PORT_TABLE);
 			stmt.executeUpdate(CREATE_CONNECTION_TABLE);
+		} catch(SQLException e) {
+			// ignore, tables already exists
+		}
+	}
+
+	private void createIndexes() {
+		try {
+			Statement stmt = conn.createStatement();
 			stmt.executeUpdate(CREATE_CONNECTION_INDEX);
 			stmt.executeUpdate(CREATE_CONNECTION_INDEX2);
 			stmt.executeUpdate(CREATE_PORT_INDEX);
@@ -112,12 +120,11 @@ public abstract class SQLDatabase implements Database {
 			// ignore, tables already exists
 		}
 	}
-		
 
 	@Override
 	public void dropBase() throws DatabaseException {
 		try {
-			Statement stmt = _conn.createStatement();
+			Statement stmt = conn.createStatement();
 			stmt.executeUpdate(DROP_PORT_TABLE);
 			stmt.executeUpdate(DROP_CONNECTION_TABLE);
 		} catch (SQLException e) {
@@ -126,7 +133,7 @@ public abstract class SQLDatabase implements Database {
 	}
 
 
-	private static Connection _conn = null;
+	private Connection conn = null;
 
 	final static String INSERT_PORT = "INSERT INTO PORTS VALUES (?,?,?,?,?,?)";
 

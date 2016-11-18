@@ -34,7 +34,7 @@ public class MEXICOConfigImporter extends Importer {
 			NodeList actors = document.getElementsByTagName("Actor");
 
 			long nbItems = 0;
-			int nbThreads = 1;
+			int nbThreads = 2;
 			ImporterThread [] threads = new ImporterThread[nbThreads];
 			int nbActors = actors.getLength() / nbThreads;
 			for (int i=0; i<nbThreads-1; i++) {

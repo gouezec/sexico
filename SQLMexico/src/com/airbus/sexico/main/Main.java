@@ -16,7 +16,7 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		long memStatAtStart = getFreeMemory();
 		
-		Database db = DatabaseFactory.getInstance().createH2Database("sexico");
+		Database db = DatabaseFactory.getInstance().createH2Database("sexico3");
 		File configFile = new File(MEXICO_CFG_FILE_NAME);
 		MEXICOConfigImporter importer = new MEXICOConfigImporter(db);
 		importer.setTimeStamped(true);

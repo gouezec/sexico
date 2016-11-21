@@ -1,6 +1,4 @@
-package com.airbus.sexico.db.mapdb;
-
-import com.airbus.sexico.db.Direction;
+package com.airbus.sexico.db;
 
 public class Port {
 
@@ -46,6 +44,15 @@ public class Port {
 		this.micdConsistency = micdConsistency;
 	}
 
+	private String unit;
+	
+	public final String getUnit() {
+		return unit;
+	}
+
+	public final void setUnit(String unit) {
+		this.unit = unit;
+	}
 
 	private String modelName;
 
@@ -71,13 +78,14 @@ public class Port {
 	public Port() {
 	}
 
-	public Port(String modelName, String portName, String description, String typeName, Direction direction, boolean micdConsistency) {
+	public Port(String modelName, String portName, String description, String typeName, String unit, Direction direction, boolean micdConsistency) {
 		super();
 		this.modelName = modelName;
 		this.portName = portName;
 		this.description = description;
 		this.typeName = typeName;
 		this.direction = direction;
+		this.unit = unit;
 		this.micdConsistency = micdConsistency;
 	}
 

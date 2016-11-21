@@ -7,6 +7,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.derby.impl.sql.compile.DB2LengthOperatorNode;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -34,7 +35,7 @@ public class MEXICOConfigImporter extends Importer {
 			NodeList actors = document.getElementsByTagName("Actor");
 
 			long nbItems = 0;
-			int nbThreads = 2;
+			int nbThreads = 1;
 			ImporterThread [] threads = new ImporterThread[nbThreads];
 			int nbActors = actors.getLength() / nbThreads;
 			for (int i=0; i<nbThreads-1; i++) {
@@ -56,7 +57,9 @@ public class MEXICOConfigImporter extends Importer {
 				e.printStackTrace();
 			}
 
+//			_db.updateIndex();
 			_db.commitBase();
+			
 			return nbItems;
 		} catch (ParserConfigurationException | SAXException | IOException | DatabaseException  e) {
 			throw new ImportException(e);

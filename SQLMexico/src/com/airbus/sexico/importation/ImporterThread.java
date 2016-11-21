@@ -2,6 +2,8 @@ package com.airbus.sexico.importation;
 
 import java.io.File;
 
+import javax.activation.MimetypesFileTypeMap;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -121,8 +123,8 @@ public class ImporterThread extends Thread {
 
 	protected void importMicd(Element micd, String actorName) throws Exception {
 		String fileName = micd.getAttribute("fileName");
-
 		Importer importer = new MICDImporter(db, actorName);
+		
 		importer.setTimeStamped(isTimeStamped);
 		importer.importFile(new File(folder, fileName));
 

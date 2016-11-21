@@ -8,6 +8,7 @@ import java.sql.Statement;
 import com.airbus.sexico.db.Database;
 import com.airbus.sexico.db.DatabaseException;
 import com.airbus.sexico.db.Direction;
+import com.airbus.sexico.db.Port;
 
 public abstract class SQLDatabase implements Database {
 
@@ -16,6 +17,11 @@ public abstract class SQLDatabase implements Database {
 	
 	private PreparedStatement _insertPortStatement;
 	private PreparedStatement _insertConnectionStatement;
+
+	@Override
+	public void updateIndex() throws DatabaseException {
+		createIndexes();	
+	}
 
 	protected void init(Connection conn) throws DatabaseException {
 		try {
@@ -48,15 +54,15 @@ public abstract class SQLDatabase implements Database {
 	 * @see com.airbus.sexico.db.Database#insertPort(java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean)
 	 */
 	@Override
-	public void insertPort(String modelName, String portName, String typeName, String description, Direction direction, 
-			boolean micdConsistency) throws DatabaseException {
+	public void insertPort(Port	port) throws DatabaseException {
 		try {
-			_insertPortStatement.setString(1, modelName);
-			_insertPortStatement.setString(2, portName);
-			_insertPortStatement.setString(3, typeName);
-			_insertPortStatement.setString(4, description);
-			_insertPortStatement.setString(5, (direction == Direction.IN ? "I" : "O"));
-			_insertPortStatement.setBoolean(6, micdConsistency);
+			_insertPortStatement.setString(1, port.getModelName());
+			_insertPortStatement.setString(2, port.getPortName());
+			_insertPortStatement.setString(3, port.getTypeName());
+			_insertPortStatement.setString(4, port.getDescription().substring(0,Math.min(port.getDescription().length(), 254)));
+			_insertPortStatement.setString(5, (port.getDirection() == Direction.IN ? "I" : "O"));
+			_insertPortStatement.setString(6, port.getUnit());
+			_insertPortStatement.setBoolean(7, port.isMicdConsistency());
 			_insertPortStatement.executeUpdate();
 		} catch (SQLException e) {
 			throw new DatabaseException(e, resolveReason(e));
@@ -135,14 +141,15 @@ public abstract class SQLDatabase implements Database {
 
 	private Connection conn = null;
 
-	final static String INSERT_PORT = "INSERT INTO PORTS VALUES (?,?,?,?,?,?)";
+	final static String INSERT_PORT = "INSERT INTO PORTS VALUES (?,?,?,?,?,?,?)";
 
 	final static String INSERT_CONNECTION = "INSERT INTO CONNECTIONS VALUES (?,?,?)";
 
 	final static String CREATE_PORT_TABLE = "CREATE TABLE PORTS " + "(modelname VARCHAR(100), "
-			+ " portname VARCHAR(100), " + " type VARCHAR(30), " + " description VARCHAR(100), "
+			+ " portname VARCHAR(100), " + " type VARCHAR(30), " + " description VARCHAR(255), "
  			+ " direction CHAR(1), "
-			+ " MICDconsistency BOOLEAN, "
+ 			+ " unit VARCHAR(30), "
+ 			+ " MICDconsistency BOOLEAN, "
 			+ " PRIMARY KEY ( modelname, portname ))";
 
 	final static String CREATE_CONNECTION_TABLE = "CREATE TABLE CONNECTIONS " + "(connectionName VARCHAR(100), "

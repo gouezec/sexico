@@ -5,8 +5,15 @@ import java.util.HashMap;
 import com.airbus.sexico.db.Database;
 import com.airbus.sexico.db.DatabaseException;
 import com.airbus.sexico.db.Direction;
+import com.airbus.sexico.db.Port;
 
 public class MapDatabase implements Database {
+
+	@Override
+	public void updateIndex() throws DatabaseException {
+		// nop
+		
+	}
 
 	private HashMap<String, Port> _ports;
 	
@@ -21,9 +28,8 @@ public class MapDatabase implements Database {
 	}
 
 	@Override
-	public void insertPort(String modelName, String portName, String typeName, String description, Direction direction,
-			boolean micdConsistency) throws DatabaseException {
-		_ports.put(modelName + portName, new Port(modelName, portName, typeName, description, direction, micdConsistency));
+	public void insertPort(Port port) throws DatabaseException {
+		_ports.put(port.getModelName() + port.getPortName(), new Port(port.getModelName(), port.getPortName(), port.getDescription(), port.getTypeName(), port.getUnit(), port.getDirection(), port.isMicdConsistency()));
 	}
 
 	@Override

@@ -12,7 +12,7 @@ public class DerbyDatabase extends SQLDatabase {
 		try {
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 			Connection conn = DriverManager.getConnection("jdbc:derby:"+name+".derby;create=true");
-			init(conn);
+			initialize(conn);
 		} catch (SQLException e) {
 			// ignore. Tables already existing
 			e.printStackTrace();

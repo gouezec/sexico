@@ -13,7 +13,7 @@ public class H2InMemoryDatabase extends SQLDatabase {
 		try {
 			Class.forName("org.h2.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:h2:mem:"+name, "sa", "");
-			init(conn);
+			initialize(conn);
 		} catch (SQLException e) {
 			// ignore. Tables already existing
 			e.printStackTrace();

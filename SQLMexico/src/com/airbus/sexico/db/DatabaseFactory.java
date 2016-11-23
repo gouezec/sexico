@@ -4,6 +4,7 @@ import com.airbus.sexico.db.mapdb.MapDatabase;
 import com.airbus.sexico.db.sqldb.DerbyDatabase;
 import com.airbus.sexico.db.sqldb.H2Database;
 import com.airbus.sexico.db.sqldb.H2InMemoryDatabase;
+import com.airbus.sexico.db.sqldb.SQLDatabase;
 
 public class DatabaseFactory {
 
@@ -26,15 +27,27 @@ public class DatabaseFactory {
 
 
 	public Database createH2Database(String name) throws DatabaseException {
-		return new H2Database(name);
+		SQLDatabase db = new H2Database(name);
+		db.build();
+		return db;
 	}
 
-	public Database createH2InMemoryDatabase(String name) throws DatabaseException {
-		return new H2InMemoryDatabase(name);
+	public Database connectH2Database(String name) throws DatabaseException {
+		SQLDatabase db = new H2Database(name);
+		db.connect();
+		return db;
 	}
 	
+	public Database createH2InMemoryDatabase(String name) throws DatabaseException {
+		SQLDatabase db =  new H2InMemoryDatabase(name);
+		db.build();
+		return db;
+	}
+
 	public Database createDerbyDatabase(String name) throws DatabaseException {
-		return new DerbyDatabase(name);		
+		SQLDatabase db = new DerbyDatabase(name);
+		db.build();
+		return db;
 	}
 
 	public Database createMapDatabase(String name) {

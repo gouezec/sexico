@@ -28,6 +28,16 @@ public class MapDatabase implements Database {
 	}
 
 	@Override
+	public Port[] getAllPorts() throws DatabaseException {
+		return _ports.values().toArray(new Port[1]);
+	}
+
+	@Override
+	public int getPortLength() throws DatabaseException {
+		return _ports.size();
+	}
+
+	@Override
 	public void insertPort(Port port) throws DatabaseException {
 		_ports.put(port.getModelName() + port.getPortName(), new Port(port.getModelName(), port.getPortName(), port.getDescription(), port.getTypeName(), port.getUnit(), port.getDirection(), port.isMicdConsistency()));
 	}

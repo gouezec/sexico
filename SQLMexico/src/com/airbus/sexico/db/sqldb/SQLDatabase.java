@@ -2,8 +2,11 @@ package com.airbus.sexico.db.sqldb;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.airbus.sexico.db.Database;
 import com.airbus.sexico.db.DatabaseException;
@@ -23,10 +26,49 @@ public abstract class SQLDatabase implements Database {
 		createIndexes();	
 	}
 
-	protected void init(Connection conn) throws DatabaseException {
+	final static String SELECT_ALL_PORTS = "SELECT * from PORTS";
+	
+	@Override
+	public Port[] getAllPorts() throws DatabaseException {
 		try {
+			List<Port> ports = new ArrayList<Port>();
+			Statement stmt = conn.createStatement();
+			stmt.executeQuery(SELECT_ALL_PORTS);
+			ResultSet rs = stmt.getResultSet();
+			while(rs.next()) {
+				Port port = new Port(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5), Direction.IN, rs.getBoolean(7));
+				port.setDirection( rs.getString(6).equals("I") ? Direction.IN : Direction.OUT);
+				ports.add(port);
+			}
+			return ports.toArray(new Port[1]);
+		} catch(SQLException e) {
+			throw new DatabaseException(e, DatabaseException.REASON_UNKNOWN);
+		}
+	}
+
+	final static String SELECT_COUNT_PORTS = "SELECT count(*) from PORTS";
+	
+	@Override
+	public int getPortLength() throws DatabaseException {
+		try {
+			Statement stmt = conn.createStatement();
+			stmt.executeQuery(SELECT_COUNT_PORTS);
+			ResultSet rs = stmt.getResultSet();
+			rs.next();
+			return rs.getInt(1);
+		} catch(SQLException e) {
+			throw new DatabaseException(e, DatabaseException.REASON_UNKNOWN);
+		}
+	}
+
+	protected  void initialize(Connection conn) throws DatabaseException, SQLException {
 			this.conn = conn;
 			conn.setAutoCommit(false);
+	}
+
+	public void build() throws DatabaseException {
+		try {
+
 			try {
 				dropBase();
 			}
@@ -41,7 +83,17 @@ public abstract class SQLDatabase implements Database {
 			e.printStackTrace();
 		}
 	}
-
+	
+	public void connect() throws DatabaseException {
+		try {
+			_insertPortStatement = conn.prepareStatement(INSERT_PORT);
+			_insertConnectionStatement = conn.prepareStatement(INSERT_CONNECTION);
+		} catch (SQLException e) {
+			// ignore. Tables already existing
+			e.printStackTrace();
+		}
+	}
+	
 	public void finalize() {
 		try {
 			conn.close();

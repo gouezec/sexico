@@ -13,7 +13,8 @@ public class Main {
 
 //	final static String MEXICO_CFG_FILE_NAME = "//filer011/CrossTools/SIGMA/TESTS/CONFS MEXICO/ATA7X/SSDBConfig_A320ID_IVP.xml";
 //	final static String MEXICO_CFG_FILE_NAME = "C:/Users/to28077/Desktop/big/SSDBConfig_A320ID_IVP.xml";
-	final static String MEXICO_CFG_FILE_NAME = "H:/big/SSDBConfig_A320ID_IVP.xml";
+//	final static String MEXICO_CFG_FILE_NAME = "H:/big/SSDBConfig_A320ID_IVP.xml";
+	final static String MEXICO_CFG_FILE_NAME = "C:/Users/to28077/Desktop/MediumConf/Medium_SDB.xml";
 	
 	public static void main(String[] args) throws Exception {
 		long memStatAtStart = getFreeMemory();
@@ -23,15 +24,15 @@ public class Main {
 		} else {
 			mexicoCfgFilePath = MEXICO_CFG_FILE_NAME;
 		}
-		Database db = DatabaseFactory.getInstance().createH2Database("sexico3");
-		File configFile = new File(mexicoCfgFilePath);
-		MEXICOConfigImporter importer = new MEXICOConfigImporter(db);
-		importer.setTimeStamped(true);
-		importer.importFile(configFile);
+//		Database db = DatabaseFactory.getInstance().createH2Database("sexico3");
+//		File configFile = new File(mexicoCfgFilePath);
+//		MEXICOConfigImporter importer = new MEXICOConfigImporter(db);
+//		importer.setTimeStamped(true);
+//		importer.importFile(configFile);
 
-//		Database db = DatabaseFactory.getInstance().connectH2Database("sexico3");
-//		RuleEngine ruleEngine = new RuleEngine(db, 1);
-//		ruleEngine.checkRules();
+		Database db = DatabaseFactory.getInstance().connectH2Database("sexico3");
+		RuleEngine ruleEngine = new RuleEngine(db, 2);
+		ruleEngine.checkRules();
 		
 		long memStatAtEnd = getFreeMemory();
 		System.out.println("Memory usage: "+NumberFormat.getInstance(Locale.FRENCH).format(memStatAtStart-memStatAtEnd)+" kb");

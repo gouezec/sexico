@@ -1,4 +1,4 @@
-package com.airbus.sexico.validation;
+package com.airbus.sexico.validation.mem;
 
 import com.airbus.sexico.db.Database;
 import com.airbus.sexico.db.DatabaseException;

@@ -17,8 +17,11 @@ import com.airbus.sexico.db.DatabaseException;
 
 public class MEXICOConfigImporter extends Importer {
 
-	public MEXICOConfigImporter(Database db) {
+	private int nbThreads;
+	
+	public MEXICOConfigImporter(Database db, int nbThreads) {
 		super(db);
+		this.nbThreads = nbThreads;
 	}
 
 	@Override
@@ -35,7 +38,6 @@ public class MEXICOConfigImporter extends Importer {
 			NodeList actors = document.getElementsByTagName("Actor");
 
 			long nbItems = 0;
-			int nbThreads = 1;
 			ImporterThread [] threads = new ImporterThread[nbThreads];
 			int nbActors = actors.getLength() / nbThreads;
 			for (int i=0; i<nbThreads-1; i++) {

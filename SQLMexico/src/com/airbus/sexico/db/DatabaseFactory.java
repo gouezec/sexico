@@ -1,6 +1,7 @@
 package com.airbus.sexico.db;
 
 import com.airbus.sexico.db.mapdb.MapDatabase;
+import com.airbus.sexico.db.nulldb.NullDatabase;
 import com.airbus.sexico.db.sqldb.DerbyDatabase;
 import com.airbus.sexico.db.sqldb.H2Database;
 import com.airbus.sexico.db.sqldb.H2InMemoryDatabase;
@@ -49,7 +50,11 @@ public class DatabaseFactory {
 		db.build();
 		return db;
 	}
-
+	
+	public Database createNullDatabase(String name) throws DatabaseException {
+		return new NullDatabase();
+	}
+	
 	public Database createMapDatabase(String name) {
 		return new MapDatabase(name);		
 	}

@@ -1,4 +1,4 @@
-package com.airbus.sexico.validation.rules;
+package com.airbus.sexico.validation.mem;
 
 import com.airbus.sexico.db.Port;
 

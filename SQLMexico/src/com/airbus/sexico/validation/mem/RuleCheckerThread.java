@@ -1,11 +1,9 @@
-package com.airbus.sexico.validation;
+package com.airbus.sexico.validation.mem;
 
 import java.io.File;
 
 import com.airbus.sexico.db.Port;
 import com.airbus.sexico.importation.ImportException;
-import com.airbus.sexico.validation.rules.NoSpaceInUnitRule;
-import com.airbus.sexico.validation.rules.RuleInterface;
 
 public class RuleCheckerThread extends Thread {
 

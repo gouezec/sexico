@@ -191,8 +191,21 @@ public abstract class SQLDatabase implements Database {
 	}
 
 
+	public void queryRuleA() throws DatabaseException {
+		try {
+			Statement stmt = conn.createStatement();
+			stmt.executeQuery(RULE_A);
+		} catch (SQLException e) {
+			throw new DatabaseException(e, DatabaseException.REASON_UNKNOWN);
+		}
+	}
+	
 	private Connection conn = null;
 
+	final static String RULE_SPACE = "SELECT modelname, portname, unit FROM ports where unit CONTAINS ' '";
+
+	final static String RULE_A = "SELECT modelname, portname, unit FROM ports where unit CONTAINS 'a'";
+	
 	final static String INSERT_PORT = "INSERT INTO PORTS VALUES (?,?,?,?,?,?,?)";
 
 	final static String INSERT_CONNECTION = "INSERT INTO CONNECTIONS VALUES (?,?,?)";

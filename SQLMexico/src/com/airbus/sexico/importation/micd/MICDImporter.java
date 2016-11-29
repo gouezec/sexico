@@ -81,6 +81,9 @@ public class MICDImporter extends Importer {
 		if (it.hasNext()) {
 			it.next();
 		}
+
+		Port port = new Port();
+
 		while (it.hasNext()) {
 			String typeName;
 			String description;
@@ -91,7 +94,6 @@ public class MICDImporter extends Importer {
 			Row row = it.next();
 			cell = row.getCell(0);
 			portName = (cell != null) ? cell.getStringCellValue() : "";
-			Port port = new Port();
 			if ((!portName.startsWith("_")) && (!portName.startsWith("#")) && (!portName.equals(""))){
 				cell = row.getCell(1);
 				typeName = (cell != null) ? cell.getStringCellValue() : "";
@@ -112,7 +114,7 @@ public class MICDImporter extends Importer {
 					nb++;
 				} catch (DatabaseException e) {
 					if(e.getReason() == DatabaseException.REASON_UNIQUE_ID_VIOLATION) {
-						System.err.println("Error: More than one port with same port and model names.");
+						System.err.println("Error: More than one port with same port and model names : "+ modelName + " / " + portName +".");
 					}
 					else {
 						System.err.println("Fatal error: invalid database.");

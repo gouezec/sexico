@@ -2,7 +2,7 @@ package com.airbus.sexico.validation.mem;
 
 import com.airbus.sexico.db.Port;
 
-public class NoSpaceInUnitRule implements RuleInterface {
+public class RuleNoSpaceInUnit implements RuleInterface {
 
 	@Override
 	public boolean check(Port port) {

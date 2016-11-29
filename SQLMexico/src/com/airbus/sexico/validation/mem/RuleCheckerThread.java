@@ -19,7 +19,7 @@ public class RuleCheckerThread extends Thread {
 	public void run() {
 		super.run();
 
-		RuleInterface rule = new NoSpaceInUnitRule();
+		RuleInterface rule = new RuleNoSpaceInUnit();
 		for(int i=first; i<=last; i++) {
 			rule.check(ports[i]);
 		}

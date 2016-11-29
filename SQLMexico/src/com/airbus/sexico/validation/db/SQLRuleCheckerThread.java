@@ -1,11 +1,8 @@
 package com.airbus.sexico.validation.db;
 
-import java.io.File;
-
 import com.airbus.sexico.db.Port;
-import com.airbus.sexico.importation.ImportException;
-import com.airbus.sexico.validation.mem.NoSpaceInUnitRule;
 import com.airbus.sexico.validation.mem.RuleInterface;
+import com.airbus.sexico.validation.mem.RuleNoSpaceInUnit;
 
 public class SQLRuleCheckerThread extends Thread {
 
@@ -21,7 +18,7 @@ public class SQLRuleCheckerThread extends Thread {
 	public void run() {
 		super.run();
 
-		RuleInterface rule = new NoSpaceInUnitRule();
+		RuleInterface rule = new RuleNoSpaceInUnit();
 		for(int i=first; i<=last; i++) {
 			rule.check(ports[i]);
 		}

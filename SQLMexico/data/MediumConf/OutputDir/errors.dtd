@@ -1,0 +1,30 @@
+<!ELEMENT report (actor*, signals)>
+	<!ATTLIST report version CDATA #REQUIRED>
+
+<!ELEMENT actor (icd)*>
+
+<!ELEMENT icd (element*)>
+	<!ATTLIST icd name CDATA #REQUIRED>
+	<!ATTLIST icd sheet CDATA #IMPLIED>
+
+<!ELEMENT element (capitalisation, location, description)>
+	<!ATTLIST element criticity CDATA #IMPLIED>
+	<!ATTLIST element category (error|warning|info) #REQUIRED>
+
+<!ELEMENT capitalisation (#PCDATA)>
+	<!ATTLIST capitalisation status CDATA #IMPLIED>
+	<!ATTLIST capitalisation message CDATA #IMPLIED>
+	
+<!ELEMENT location (#PCDATA)>
+	<!ATTLIST location file CDATA #IMPLIED>
+	<!ATTLIST location sheet CDATA #IMPLIED>
+	<!ATTLIST location line CDATA #IMPLIED>
+	
+<!ELEMENT description (io?)>
+	<!ATTLIST description var CDATA #IMPLIED>
+	<!ATTLIST description signal CDATA #IMPLIED>
+	
+<!ELEMENT io (location)>
+	<!ATTLIST io name CDATA #IMPLIED>
+	<!ATTLIST io init CDATA #IMPLIED>
+	<!ATTLIST io cons CDATA #IMPLIED>

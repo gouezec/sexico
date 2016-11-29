@@ -32,7 +32,7 @@ public class Main {
 		
 		// Tester le chargement de la base avec les MICD et les couplages de la conf MEXICO
 		// createNullDatabase, createMapDatabase, createH2Database, createDerbyDatabase
-		Database db = DatabaseFactory.getInstance().createNullDatabase("sexico3");
+		Database db = DatabaseFactory.getInstance().createH2Database("sexico3");
 		File configFile = new File(mexicoCfgFilePath);
 		MEXICOConfigImporter importer = new MEXICOConfigImporter(db, 1);
 		importer.setTimeStamped(true);

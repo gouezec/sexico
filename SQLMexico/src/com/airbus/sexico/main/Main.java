@@ -6,8 +6,8 @@ import java.util.Locale;
 
 import com.airbus.sexico.db.Database;
 import com.airbus.sexico.db.DatabaseFactory;
+import com.airbus.sexico.db.sqldb.SQLDatabase;
 import com.airbus.sexico.importation.MEXICOConfigImporter;
-import com.airbus.sexico.validation.mem.RuleEngine;
 
 public class Main {
 
@@ -42,6 +42,23 @@ public class Main {
 //		Database db = DatabaseFactory.getInstance().connectH2Database("sexico3");
 //		RuleEngine ruleEngine = new RuleEngine(db, 2);
 //		ruleEngine.checkRules();
+		
+		SQLDatabase sqldb = (SQLDatabase) db;
+
+		long startTime, endTime, elapsedTime;
+		int nb;
+
+		startTime = System.currentTimeMillis();
+		nb = sqldb.queryHomonimy1();
+		endTime = System.currentTimeMillis();
+		elapsedTime = endTime - startTime;
+		System.out.println("HOMONIMY 1 done in " + elapsedTime + "ms, (" + nb + " connexions found).");
+		
+		startTime = System.currentTimeMillis();
+		sqldb.queryHomonimy2();
+		endTime = System.currentTimeMillis();
+		elapsedTime = endTime - startTime;
+		System.out.println("HOMONIMY 2 done in " + elapsedTime + "ms, (" + nb + " connexions found).");
 		
 		// Afficher l'emprise mémoire à l'issue des tests
 		long memStatAtEnd = getFreeMemory();

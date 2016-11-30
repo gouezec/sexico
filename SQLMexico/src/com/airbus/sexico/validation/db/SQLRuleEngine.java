@@ -22,7 +22,7 @@ public class SQLRuleEngine {
 		try {
 
 			SQLRuleCheckerThread [] threads = new SQLRuleCheckerThread[nbThreads];
-
+			Port [] ports = new Port[1];
 			long statTime = System.currentTimeMillis();
 			int nbActors = ports.length / nbThreads;
 			for (int i=0; i<nbThreads-1; i++) {

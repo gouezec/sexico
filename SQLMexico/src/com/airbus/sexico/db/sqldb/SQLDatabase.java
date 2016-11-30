@@ -199,6 +199,15 @@ public abstract class SQLDatabase implements Database {
 			throw new DatabaseException(e, DatabaseException.REASON_UNKNOWN);
 		}
 	}
+
+	public void queryRuleSpace() throws DatabaseException {
+		try {
+			Statement stmt = conn.createStatement();
+			stmt.executeQuery(RULE_SPACE);
+		} catch (SQLException e) {
+			throw new DatabaseException(e, DatabaseException.REASON_UNKNOWN);
+		}
+	}
 	
 	private Connection conn = null;
 

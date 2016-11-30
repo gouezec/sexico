@@ -22,7 +22,6 @@ public class SQLRuleEngine {
 		try {
 
 			SQLRuleCheckerThread [] threads = new SQLRuleCheckerThread[nbThreads];
-			Port [] ports = db.getAllPorts();
 
 			long statTime = System.currentTimeMillis();
 			int nbActors = ports.length / nbThreads;

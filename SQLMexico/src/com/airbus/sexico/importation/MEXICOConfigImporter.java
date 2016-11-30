@@ -59,7 +59,7 @@ public class MEXICOConfigImporter extends Importer {
 				e.printStackTrace();
 			}
 
-//			_db.updateIndex();
+			_db.updateIndex();
 			_db.commitBase();
 			
 			return nbItems;

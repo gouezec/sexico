@@ -15,7 +15,7 @@ public class Main {
 //	final static String DEFAULT_MEXICO_CFG_FILE_NAME = "//filer011/CrossTools/SIGMA/TESTS/CONFS MEXICO/ATA7X/SSDBConfig_A320ID_IVP.xml";
 //	final static String DEFAULT_MEXICO_CFG_FILE_NAME = "C:/Users/to28077/Desktop/big/SSDBConfig_A320ID_IVP.xml";
 //	final static String DEFAULT_MEXICO_CFG_FILE_NAME = "C:/Users/to28077/Desktop/big_zip/SSDBConfig_A320ID_IVP.xml";
-	final static String DEFAULT_MEXICO_CFG_FILE_NAME = "C:/Users/to28077/Desktop/MediumConf/Medium_SDB.xml";
+	final static String DEFAULT_MEXICO_CFG_FILE_NAME = "./data/MediumConf/Medium_SDB.xml";
 //	final static String DEFAULT_MEXICO_CFG_FILE_NAME = "C:/Users/to28077/Desktop/TinyConf/Tiny_SDB.xml";	
 //	final static String DEFAULT_MEXICO_CFG_FILE_NAME = "H:/big/SSDBConfig_A320ID_IVP.xml";
 //	final static String DEFAULT_MEXICO_CFG_FILE_NAME = "H:/big_zip/SSDBConfig_A320ID_IVP.xml";

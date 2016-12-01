@@ -1,6 +1,7 @@
 package com.airbus.sexico.validation.db;
 
 import com.airbus.sexico.db.Database;
+import com.airbus.sexico.db.DatabaseContentHandler;
 import com.airbus.sexico.db.DatabaseException;
 import com.airbus.sexico.db.Port;
 
@@ -20,7 +21,7 @@ public class SQLRuleEngine {
 	
 	public void checkRules() {
 		try {
-
+			DatabaseContentHandler dbHandler = db.getContentHandler();
 			SQLRuleCheckerThread [] threads = new SQLRuleCheckerThread[nbThreads];
 			Port [] ports = new Port[1];
 			long statTime = System.currentTimeMillis();
@@ -32,7 +33,7 @@ public class SQLRuleEngine {
 				threads[i].start();
 			}
 			if (nbThreads > 0) {
-				threads[nbThreads-1] = new SQLRuleCheckerThread(ports, (nbThreads-1)*nbActors ,db.getPortLength()-1);
+				threads[nbThreads-1] = new SQLRuleCheckerThread(ports, (nbThreads-1)*nbActors ,dbHandler.getPortLength()-1);
 				threads[nbThreads-1].start();
 			}
 			try {	

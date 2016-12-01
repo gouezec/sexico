@@ -18,6 +18,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import com.airbus.sexico.db.Database;
+import com.airbus.sexico.db.DatabaseContentHandler;
 import com.airbus.sexico.db.DatabaseException;
 import com.airbus.sexico.db.Direction;
 import com.airbus.sexico.db.Port;
@@ -31,8 +32,8 @@ public class MICDImporter extends Importer {
 
 	final static String DIRECTION_IN = "IN";
 	final static String DIRECTION_OUT = "OUT";
-	
-	
+
+
 	protected String modelName;
 
 	public MICDImporter(Database db, String modelName) {
@@ -41,9 +42,9 @@ public class MICDImporter extends Importer {
 		this.mimeMap = new MimetypesFileTypeMap();
 		this.mimeMap.addMimeTypes("application/zip zip");
 	}
-	
+
 	private MimetypesFileTypeMap mimeMap;
-	
+
 	@Override
 	protected long rawImportFile(File file) throws ImportException {
 		try {
@@ -56,11 +57,11 @@ public class MICDImporter extends Importer {
 			} else {
 				in = new FileInputStream(file);
 			}
-			
+
 			long nb = 0;
 			Workbook wb;
 			Sheet st;
-			
+
 			wb = WorkbookFactory.create(in);
 			in.close();
 			st = wb.getSheet(FUN_IN);
@@ -75,54 +76,63 @@ public class MICDImporter extends Importer {
 	}
 
 	protected long importSheet(Sheet st, Direction direction)  {
-		long nb = 0;
-		Iterator<Row> it = st.rowIterator();
-		// skip first line
-		if (it.hasNext()) {
-			it.next();
-		}
-		while (it.hasNext()) {
-			String typeName;
-			String description;
-			String portName;
-			String unit;
-			Cell cell;
+		try {
+			long nb = 0;
+			Iterator<Row> it = st.rowIterator();
+			DatabaseContentHandler dbHandler = _db.getContentHandler();
 
-			Row row = it.next();
-			cell = row.getCell(0);
-			portName = (cell != null) ? cell.getStringCellValue() : "";
-			Port port = new Port();
-			if ((!portName.startsWith("_")) && (!portName.startsWith("#")) && (!portName.equals(""))){
-				cell = row.getCell(1);
-				typeName = (cell != null) ? cell.getStringCellValue() : "";
-				cell = row.getCell(2);
-				unit = (cell != null) ? cell.getStringCellValue() : "";
-				cell = row.getCell(3);
-				description = (cell != null) ? cell.getStringCellValue() : "";
-				boolean consistency = true;
-				try {
-					port.setModelName(modelName);
-					port.setPortName(portName);
-					port.setDescription(description);
-					port.setDirection(direction);
-					port.setMicdConsistency(consistency);
-					port.setTypeName(typeName);
-					port.setUnit(unit);
-					_db.insertPort(port);
-					nb++;
-				} catch (DatabaseException e) {
-					if(e.getReason() == DatabaseException.REASON_UNIQUE_ID_VIOLATION) {
-						System.err.println("Error: More than one port with same port and model names.");
-					}
-					else {
-						System.err.println("Fatal error: invalid database.");
-						e.printStackTrace();
-						break;
+			// skip first line
+			if (it.hasNext()) {
+				it.next();
+			}
+
+
+			while (it.hasNext()) {
+				String typeName;
+				String description;
+				String portName;
+				String unit;
+				Cell cell;
+
+				Row row = it.next();
+				cell = row.getCell(0);
+				portName = (cell != null) ? cell.getStringCellValue() : "";
+				Port port = new Port();
+				if ((!portName.startsWith("_")) && (!portName.startsWith("#")) && (!portName.equals(""))){
+					cell = row.getCell(1);
+					typeName = (cell != null) ? cell.getStringCellValue() : "";
+					cell = row.getCell(2);
+					unit = (cell != null) ? cell.getStringCellValue() : "";
+					cell = row.getCell(3);
+					description = (cell != null) ? cell.getStringCellValue() : "";
+					boolean consistency = true;
+					try {
+						port.setModelName(modelName);
+						port.setPortName(portName);
+						port.setDescription(description);
+						port.setDirection(direction);
+						port.setMicdConsistency(consistency);
+						port.setTypeName(typeName);
+						port.setUnit(unit);
+						dbHandler.insertPort(port);
+						nb++;
+					} catch (DatabaseException e) {
+						if(e.getReason() == DatabaseException.REASON_UNIQUE_ID_VIOLATION) {
+							System.err.println("Error: More than one port with same port and model names.");
+						}
+						else {
+							System.err.println("Fatal error: invalid database.");
+							e.printStackTrace();
+							break;
+						}
 					}
 				}
 			}
+			return nb;
+		} catch(DatabaseException e) {
+			e.printStackTrace();
+			return 0;
 		}
-		return nb;
 	}
 
 }

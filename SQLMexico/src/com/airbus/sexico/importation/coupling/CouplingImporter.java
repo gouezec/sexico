@@ -11,6 +11,7 @@ import java.util.zip.ZipInputStream;
 import javax.activation.MimetypesFileTypeMap;
 
 import com.airbus.sexico.db.Database;
+import com.airbus.sexico.db.DatabaseContentHandler;
 import com.airbus.sexico.db.DatabaseException;
 import com.airbus.sexico.importation.ImportException;
 import com.airbus.sexico.importation.Importer;
@@ -50,11 +51,12 @@ public class CouplingImporter extends Importer {
 			// skip the first line
 			reader.readNext();
 			long nb = 0;
+			DatabaseContentHandler dbHandler = _db.getContentHandler();
 			while ((nextLine = reader.readNext()) != null) {
 				if (nextLine.length >= 2) {
 					String portName = nextLine[0];
 					String connectionName = nextLine[1];
-					_db.insertConnection(_modelName, portName, connectionName);
+					dbHandler.insertConnection(_modelName, portName, connectionName);
 					nb++;
 				}
 			}

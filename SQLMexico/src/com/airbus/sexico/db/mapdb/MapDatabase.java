@@ -3,8 +3,8 @@ package com.airbus.sexico.db.mapdb;
 import java.util.HashMap;
 
 import com.airbus.sexico.db.Database;
+import com.airbus.sexico.db.DatabaseContentHandler;
 import com.airbus.sexico.db.DatabaseException;
-import com.airbus.sexico.db.Direction;
 import com.airbus.sexico.db.Port;
 
 public class MapDatabase implements Database {
@@ -15,36 +15,23 @@ public class MapDatabase implements Database {
 		
 	}
 
-	private HashMap<String, Port> _ports;
+	private HashMap<String, Port> ports;
 	
-	private HashMap<String, PortConnection> _connections;
+	private HashMap<String, PortConnection> connections;
+	
+	private MapDatabaseContentHandler handler;
 
 	public MapDatabase(String name) {
 		initBase();
 	}
 
+	@Override
+	public DatabaseContentHandler getContentHandler() throws DatabaseException {
+		return handler;
+	}
+
 	public void finalize() {
 		// NOP with a map
-	}
-
-	@Override
-	public Port[] getAllPorts() throws DatabaseException {
-		return _ports.values().toArray(new Port[1]);
-	}
-
-	@Override
-	public int getPortLength() throws DatabaseException {
-		return _ports.size();
-	}
-
-	@Override
-	public void insertPort(Port port) throws DatabaseException {
-		_ports.put(port.getModelName() + port.getPortName(), new Port(port.getModelName(), port.getPortName(), port.getDescription(), port.getTypeName(), port.getUnit(), port.getDirection(), port.isMicdConsistency()));
-	}
-
-	@Override
-	public void insertConnection(String modelName, String portName, String connectionName) throws DatabaseException {
-		_connections.put(modelName + portName, new PortConnection(modelName, portName, connectionName));
 	}
 
 
@@ -60,7 +47,8 @@ public class MapDatabase implements Database {
 	}
 	
 	private void  initBase() {
-		_ports = new HashMap<String, Port>();
-		_connections = new HashMap<String, PortConnection>();		
+		ports = new HashMap<String, Port>();
+		connections = new HashMap<String, PortConnection>();
+		handler = new MapDatabaseContentHandler(ports, connections);
 	}
 }

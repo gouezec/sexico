@@ -42,7 +42,7 @@ public class MEXICOConfigImporter extends Importer {
 			int nbActors = actors.getLength() / nbThreads;
 			for (int i=0; i<nbThreads-1; i++) {
 				int first = i*nbActors;
- 				int last = (i+1)*nbActors; 
+ 				int last = (i+1)*nbActors-1; 
  				threads[i] = new ImporterThread(_db, folder, actors, first, last, isTimeStamped());					
  				threads[i].start();
 			}

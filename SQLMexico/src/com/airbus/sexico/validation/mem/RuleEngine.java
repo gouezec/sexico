@@ -1,6 +1,7 @@
 package com.airbus.sexico.validation.mem;
 
 import com.airbus.sexico.db.Database;
+import com.airbus.sexico.db.DatabaseContentHandler;
 import com.airbus.sexico.db.DatabaseException;
 import com.airbus.sexico.db.Port;
 
@@ -22,7 +23,8 @@ public class RuleEngine {
 		try {
 
 			RuleCheckerThread [] threads = new RuleCheckerThread[nbThreads];
-			Port [] ports = db.getAllPorts();
+			DatabaseContentHandler dbHandler = db.getContentHandler();
+			Port [] ports = dbHandler.getAllPorts();
 
 			long statTime = System.currentTimeMillis();
 			int nbActors = ports.length / nbThreads;
@@ -33,7 +35,7 @@ public class RuleEngine {
 				threads[i].start();
 			}
 			if (nbThreads > 0) {
-				threads[nbThreads-1] = new RuleCheckerThread(ports, (nbThreads-1)*nbActors ,db.getPortLength()-1);
+				threads[nbThreads-1] = new RuleCheckerThread(ports, (nbThreads-1)*nbActors ,dbHandler.getPortLength()-1);
 				threads[nbThreads-1].start();
 			}
 			try {	
